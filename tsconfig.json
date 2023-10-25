@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"target": "es2021",
+		"module": "es2020",
+		"moduleResolution": "bundler",
+		"isolatedModules": true,
+		"strict": true,
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"strictNullChecks": false,
+		"noImplicitAny": true,
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"lib": ["es2021", "dom"],
+		"skipLibCheck": true,
+		"outDir": "dist",
+		"declaration": true
+	},
+	"include": ["src/**/*.ts"]
+}
