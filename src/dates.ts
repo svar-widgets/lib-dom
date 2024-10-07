@@ -100,8 +100,9 @@ function date2str(mask: string, date: Date, locale: ILocale): number | string {
 }
 
 const formatFlags = /%[a-zA-Z]/g;
+type DateFormater = (date: Date) => string;
 
-export function dateToString(format: string, locale: ILocale) {
+export function dateToString(format: string, locale: ILocale): DateFormater {
 	if (typeof format == "function") return format;
 
 	return function (date: Date): string {

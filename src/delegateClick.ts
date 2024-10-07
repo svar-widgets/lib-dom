@@ -1,3 +1,4 @@
+import type { ActionReturn } from "./common";
 import { locate, id as parseId } from "./locate";
 
 export type IHandlersHash = { [key: string]: CallableFunction };
@@ -6,7 +7,7 @@ export function delegateEvent(
 	node: HTMLElement,
 	handlers: IHandlersHash | CallableFunction,
 	event: string
-) {
+): ActionReturn {
 	function handleEvent(ev: Event) {
 		const node = locate(ev);
 		if (!node) return;
@@ -31,7 +32,10 @@ export function delegateEvent(
 	node.addEventListener(event, handleEvent);
 }
 
-export function delegateClick(node: HTMLElement, handlers: IHandlersHash) {
+export function delegateClick(
+	node: HTMLElement,
+	handlers: IHandlersHash
+): ActionReturn {
 	delegateEvent(node, handlers, "click");
 	if (handlers.dblclick) delegateEvent(node, handlers.dblclick, "dblclick");
 }

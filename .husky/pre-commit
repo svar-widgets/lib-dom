@@ -1,3 +1,1 @@
-#!/bin/bash
-
-yarn test && yarn run lint-staged
+yarn test && yarn lint-staged

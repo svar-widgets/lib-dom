@@ -20,6 +20,11 @@ export default defineConfig({
 		coverage: {
 			reporter: ["text"],
 		},
+		browser: {
+			provider: "playwright",
+			enabled: true,
+			name: "chromium",
+		},
 	},
 	plugins: [
 		dts({
