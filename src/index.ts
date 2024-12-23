@@ -7,4 +7,6 @@ export { uid } from "./common";
 export { dateToString, getDuodecade } from "./dates";
 
 export { locale } from "./locale";
+export { setEnv, env } from "./env";
+
 export type { ILocale } from "./locale";

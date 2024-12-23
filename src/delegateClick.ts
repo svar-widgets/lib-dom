@@ -2,6 +2,7 @@ import type { ActionReturn } from "./common";
 import { locate, id as parseId } from "./locate";
 
 export type IHandlersHash = { [key: string]: CallableFunction };
+import { env } from "./env";
 
 export function delegateEvent(
 	node: HTMLElement,
@@ -29,7 +30,8 @@ export function delegateEvent(
 		}
 		if (handlers[event]) handlers[event](id, ev);
 	}
-	node.addEventListener(event, handleEvent);
+
+	env.addEvent(node, event, handleEvent);
 }
 
 export function delegateClick(

@@ -2,6 +2,7 @@
 
 wx-lib-dom is a library that provides base helpers for DOM operations.
 
+
 ![NPM package](https://img.shields.io/npm/v/wx-lib-dom)
 
 ## Running Tests
@@ -22,3 +23,4 @@ The library includes Playwright-based tests that are executed automatically by C
    ```sh
    yarn test
    ```
+

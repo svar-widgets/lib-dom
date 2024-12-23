@@ -1,4 +1,5 @@
 import { remove } from "./array";
+import { env, RemoveEventListener } from "./env";
 import type { ActionReturn } from "./common";
 
 type OutsideListener = {
@@ -15,6 +16,7 @@ type OutsideListenerProps = {
 let activationDate: Date = new Date();
 let skipNext = false;
 
+let outsideHandlers: RemoveEventListener[] = [];
 const outsideListners: OutsideListener[] = [];
 const handleOutsideClick: EventListener = (event: Event) => {
 	// activation was inside of the elements, ignoring
@@ -41,7 +43,6 @@ const handleOutsideClick: EventListener = (event: Event) => {
 		}
 	}
 };
-const outsideEvents = ["click", "contextmenu"];
 
 // we are tracking mousedown for two reasons:
 // 1. to be sure that mouse action was started inside the element
@@ -67,11 +68,12 @@ export function clickOutside(
 	props: CallableFunction | OutsideListenerProps
 ): ActionReturn {
 	// set handler only once
-	if (!outsideListners.length) {
-		outsideEvents.forEach(e =>
-			document.addEventListener(e, handleOutsideClick)
-		);
-		document.addEventListener("mousedown", handleMouseDown);
+	if (!outsideHandlers.length) {
+		outsideHandlers = [
+			env.addGlobalEvent("click", handleOutsideClick),
+			env.addGlobalEvent("contextmenu", handleOutsideClick),
+			env.addGlobalEvent("mousedown", handleMouseDown),
+		];
 	}
 
 	if (typeof props !== "object") {
@@ -83,10 +85,10 @@ export function clickOutside(
 	return {
 		destroy() {
 			remove(outsideListners, pack);
-			if (!outsideListners.length)
-				outsideEvents.forEach(e =>
-					document.removeEventListener(e, handleOutsideClick)
-				);
+			if (!outsideListners.length) {
+				outsideHandlers.forEach(e => e());
+				outsideHandlers = [];
+			}
 		},
 	};
 }

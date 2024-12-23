@@ -1,5 +1,5 @@
 import { expect, test, beforeEach } from "vitest";
-import { delegateClick, delegateEvent } from "../src/index";
+import { delegateClick, delegateEvent, setEnv, env } from "../src/index";
 import { mouse, resolveCount } from "./utils";
 
 // @vitest-environment jsdom
@@ -127,5 +127,42 @@ test("delegateEvent, by action", () => {
 			"c2",
 			"d1",
 		]);
+	});
+});
+
+test("delegateEvent, and custom env", () => {
+	const prev = { ...env };
+
+	let results = [];
+
+	// set dummy env without real dom access
+	let check = "";
+	setEnv({
+		addEvent: function (_node, name, _config) {
+			check = name;
+			return () => {};
+		},
+	});
+
+	delegateClick(env.getTopNode(), {
+		click: id => {
+			results.push("c" + id);
+		},
+	});
+	expect(check).to.eq("click");
+
+	// set back normal env
+	setEnv(prev);
+	return resolveCount(1, done => {
+		delegateClick(document.getElementById("host"), {
+			click: id => {
+				results.push(id);
+				done();
+			},
+		});
+
+		mouse("click", document.getElementById("in3"));
+	}).then(() => {
+		expect(results).to.deep.eq([3]);
 	});
 });

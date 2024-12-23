@@ -1,3 +1,7 @@
+### 0.7.0
+
+- [add] env, setEnv
+
 ### 0.6.0
 
 - [add] calculatePosition, getAbsParent helpers

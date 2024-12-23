@@ -1,5 +1,5 @@
 export type ActionReturn = void | {
-	destroy: () => void;
+    destroy: () => void;
 };
 
 let id = new Date().valueOf();

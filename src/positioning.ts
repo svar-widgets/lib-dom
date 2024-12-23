@@ -1,3 +1,5 @@
+import { env } from "./env";
+
 type positionResult = {
 	x: number;
 	y: number;
@@ -17,9 +19,10 @@ const isCenter = (mode: string) => mode.indexOf("center") !== -1;
 
 function getMaxIndex(p: HTMLElement, ap: HTMLElement): number {
 	let zi = 0;
+	const top = env.getTopNode();
 
 	while (p) {
-		if (p === document.body) break;
+		if (p === top) break;
 		const pos = getComputedStyle(p)["position"];
 		if (pos === "absolute" || pos === "relative" || pos === "fixed") {
 			zi = parseInt(getComputedStyle(p)["zIndex"]) || 0;
@@ -59,7 +62,7 @@ export function calculatePosition(
 	let fixLeft = 0;
 
 	const body = getAbsParent(self);
-	const cont = isOverlap(at) ? document.body : body;
+	const cont = isOverlap(at) ? env.getTopNode() : body;
 
 	if (!body) return noPosition;
 
@@ -145,11 +148,12 @@ export function calculatePosition(
 }
 
 export function getAbsParent(el: HTMLElement): HTMLElement | null {
+	const top = env.getTopNode();
 	while (el) {
 		el = el.parentNode as HTMLElement;
 		const pos = getComputedStyle(el)["position"];
 		if (
-			el === document.body ||
+			el === top ||
 			pos === "relative" ||
 			pos === "absolute" ||
 			pos === "fixed"
