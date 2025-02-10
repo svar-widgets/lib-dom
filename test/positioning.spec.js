@@ -59,3 +59,22 @@ test("should correctly calculate position related to parent", () => {
 		expect(result, `#${i} ${at}`).toEqual(expected);
 	});
 });
+test("should correctly calculate position at point if parent is bigger than container", () => {
+	document.body.style = "margin: 0; padding: 0; width: 300px; height: 500px;";
+	document.body.innerHTML = `
+	    <div style="position: relative; width: 300px; height: 500px;">
+	        <div style="width: 250px; height: 250px;overflow:auto;">
+	    			<div id="parent" style="width: 500px; height: 500px;"></div>
+	        </div>
+	        <div id="portal" style="position: absolute; width: 100px; height: 100px;"></div>
+	    </div>
+	`;
+	const portal = document.getElementById("portal");
+	const parent = document.getElementById("parent");
+
+	const left = 240;
+	const top = 240;
+	const expected = { x: 200, y: 240, z: 20, width: "auto" };
+	const result = calculatePosition(portal, parent, "point", left, top);
+	expect(result).toEqual(expected);
+});

@@ -45,8 +45,6 @@ let x: number,
 		width?: number;
 	};
 
-const noPosition = { x: 0, y: 0, z: 0, width: "auto" };
-
 export function calculatePosition(
 	self: HTMLElement,
 	parent: HTMLElement,
@@ -54,17 +52,18 @@ export function calculatePosition(
 	left: number = 0,
 	top: number = 0
 ): positionResult {
-	if (!self) return noPosition;
+	if (!self) return null;
 
 	x = left;
 	y = top;
+	width = "auto";
 	let z = 0;
 	let fixLeft = 0;
 
 	const body = getAbsParent(self);
 	const cont = isOverlap(at) ? env.getTopNode() : body;
 
-	if (!body) return noPosition;
+	if (!body) return null;
 
 	const bodyRect = body.getBoundingClientRect();
 	const selfRect = self.getBoundingClientRect();
@@ -79,7 +78,7 @@ export function calculatePosition(
 	// set position
 	if (parent) {
 		pos = parent.getBoundingClientRect();
-		width = isFit(at) ? pos.width + "px" : "auto";
+		if (isFit(at)) width = pos.width + "px";
 		if (at !== "point") {
 			if (isCenter(at)) {
 				if (isFit(at)) {
@@ -122,7 +121,7 @@ export function calculatePosition(
 	const dxR = x + selfRect.width - contRect.right;
 	if (dxR > 0) {
 		if (!isRight(at)) {
-			x = pos.right - selfRect.width;
+			x = contRect.right - selfRect.width;
 		} else {
 			fixLeft = 2;
 		}

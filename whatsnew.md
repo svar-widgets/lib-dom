@@ -1,4 +1,9 @@
-### 0.7.1
+### 0.8.0
+
+- [update] calculatePosition returns null when element is not in DOM
+- [fix] auto-fit logic of calculatePosition: actual width is returned, shift to left is done relative to the container not to the original menu position
+
+### 0.7.0
 
 - [add] env, setEnv
 
