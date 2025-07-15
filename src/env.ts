@@ -1,4 +1,5 @@
 export interface Env {
+	detect: () => boolean;
 	addEvent: (
 		node: HTMLElement,
 		event: string,
@@ -6,15 +7,17 @@ export interface Env {
 	) => RemoveEventListener;
 	addGlobalEvent: (
 		event: string,
-		handler: EventListenerOrEventListenerObject
+		handler: EventListenerOrEventListenerObject,
+		rel: HTMLElement
 	) => RemoveEventListener;
-	getTopNode: () => HTMLElement;
+	getTopNode: (rel: HTMLElement) => HTMLElement;
 }
 
 export type RemoveEventListener = () => void;
 
 function getEnv(): Env {
 	return {
+		detect: () => true,
 		addEvent: function (
 			node: Node,
 			event: string,

@@ -8,5 +8,6 @@ export { dateToString, getDuodecade } from "./dates";
 
 export { locale } from "./locale";
 export { setEnv, env } from "./env";
+export { salesForceEnv } from "./salesforce";
 
 export type { ILocale } from "./locale";

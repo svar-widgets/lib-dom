@@ -19,7 +19,7 @@ const isCenter = (mode: string) => mode.indexOf("center") !== -1;
 
 function getMaxIndex(p: HTMLElement, ap: HTMLElement): number {
 	let zi = 0;
-	const top = env.getTopNode();
+	const top = env.getTopNode(p);
 
 	while (p) {
 		if (p === top) break;
@@ -61,7 +61,7 @@ export function calculatePosition(
 	let fixLeft = 0;
 
 	const body = getAbsParent(self);
-	const cont = isOverlap(at) ? env.getTopNode() : body;
+	const cont = isOverlap(at) ? env.getTopNode(self) : body;
 
 	if (!body) return null;
 
@@ -147,9 +147,9 @@ export function calculatePosition(
 }
 
 export function getAbsParent(el: HTMLElement): HTMLElement | null {
-	const top = env.getTopNode();
+	const top = env.getTopNode(el);
+	if (el) el = el.parentElement;
 	while (el) {
-		el = el.parentNode as HTMLElement;
 		const pos = getComputedStyle(el)["position"];
 		if (
 			el === top ||
@@ -158,6 +158,8 @@ export function getAbsParent(el: HTMLElement): HTMLElement | null {
 			pos === "fixed"
 		)
 			return el;
+
+		el = el.parentNode as HTMLElement;
 	}
 	return null;
 }

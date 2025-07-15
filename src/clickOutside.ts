@@ -70,9 +70,9 @@ export function clickOutside(
 	// set handler only once
 	if (!outsideHandlers.length) {
 		outsideHandlers = [
-			env.addGlobalEvent("click", handleOutsideClick),
-			env.addGlobalEvent("contextmenu", handleOutsideClick),
-			env.addGlobalEvent("mousedown", handleMouseDown),
+			env.addGlobalEvent("click", handleOutsideClick, node),
+			env.addGlobalEvent("contextmenu", handleOutsideClick, node),
+			env.addGlobalEvent("mousedown", handleMouseDown, node),
 		];
 	}
 

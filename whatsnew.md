@@ -1,3 +1,11 @@
+### 0.9.1
+
+- [update] getAbsParent returns null for detached nodes
+
+### 0.9.0
+
+- [add] salesforce env
+
 ### 0.8.0
 
 - [update] calculatePosition returns null when element is not in DOM

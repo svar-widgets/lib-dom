@@ -144,7 +144,7 @@ test("delegateEvent, and custom env", () => {
 		},
 	});
 
-	delegateClick(env.getTopNode(), {
+	delegateClick(document.body, {
 		click: id => {
 			results.push("c" + id);
 		},
