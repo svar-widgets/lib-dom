@@ -1,7 +1,7 @@
 type Dictionary = (key: string) => string;
 type IHash<T> = { [key: string]: T };
 type Group<T> = IHash<IHash<T> | T>;
-type Terms = Group<string>;
+export type Terms = Group<string>;
 
 export interface ILocale {
 	getGroup(group: string): Dictionary;

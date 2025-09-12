@@ -1,3 +1,7 @@
+### 0.9.2
+
+- [update] toolchain changed to tsup
+
 ### 0.9.1
 
 - [update] getAbsParent returns null for detached nodes

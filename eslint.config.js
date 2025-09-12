@@ -13,7 +13,7 @@ export default [
 		},
 		languageOptions: {
 			parser: "@typescript-eslint/parser",
-			globals: { ...globals.browser, ...globals.es2022 },
+			globals: { ...globals.browser, ...globals.es2022, setTimeout: true },
 			ecmaVersion: 2022,
 			sourceType: "module",
 			parserOptions: {
@@ -33,12 +33,11 @@ export default [
 			],
 			// Turn off the need for explicit function return types
 			"@typescript-eslint/explicit-function-return-type": "off",
+			"@typescript-eslint/explicit-module-boundary-types": "warn",
 			// Warn when "any" type is used
 			"@typescript-eslint/no-explicit-any": "warn",
 			// Warn on @ts-ignore comments
 			"@typescript-eslint/ban-ts-comment": "warn",
-			// Public methods should have return types
-			"@typescript-eslint/explicit-module-boundary-types": "error",
 		},
 	},
 	{

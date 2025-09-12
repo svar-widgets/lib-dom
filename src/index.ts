@@ -10,4 +10,4 @@ export { locale } from "./locale";
 export { setEnv, env } from "./env";
 export { salesForceEnv } from "./salesforce";
 
-export type { ILocale } from "./locale";
+export type { ILocale, Terms } from "./locale";
