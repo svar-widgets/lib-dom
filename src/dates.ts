@@ -4,6 +4,8 @@ export interface ILocale {
 	monthShort: string[];
 	monthFull: string[];
 
+	weekStart?: number;
+
 	am?: string[];
 	pm?: string[];
 }
@@ -25,20 +27,24 @@ export function getDuodecade(year: number): { start: number; end: number } {
 	};
 }
 
-function getISOWeek(ndate: Date): number {
+// returns the number of the week by given date, by default with ISO week start as Monday
+function getWeekNumber(ndate: Date, weekStart: number = 1): number {
 	let nday = ndate.getDay();
 	if (nday === 0) {
-		nday = 7;
+		nday = 7; // normalizing to ISO format
 	}
+
+	nday = (nday - weekStart + 7) % 7; // rotate week to make weekStart day 0
+
 	const first_thursday = new Date(ndate.valueOf());
-	first_thursday.setDate(ndate.getDate() + (4 - nday));
+	first_thursday.setDate(ndate.getDate() + (3 - nday));
 	const year_number = first_thursday.getFullYear(); // year of the first Thursday
 	const ordinal_date = Math.floor(
 		(first_thursday.getTime() - new Date(year_number, 0, 1).getTime()) /
 			86400000
 	); //ordinal date of the first Thursday - 1 (so not really ordinal date)
-	const weekNumber = 1 + Math.floor(ordinal_date / 7);
-	return weekNumber;
+
+	return 1 + Math.floor(ordinal_date / 7);
 }
 
 const emptyAmPm = ["", ""];
@@ -83,7 +89,9 @@ function date2str(mask: string, date: Date, locale: ILocale): number | string {
 		case "%S":
 			return toFixedMs(date.getMilliseconds());
 		case "%W":
-			return toFixed(getISOWeek(date));
+			return toFixed(getWeekNumber(date));
+		case "%w":
+			return toFixed(getWeekNumber(date, locale.weekStart ?? 1));
 		case "%c": {
 			let str = date.getFullYear() + "";
 			str += "-" + toFixed(date.getMonth() + 1);
@@ -94,15 +102,17 @@ function date2str(mask: string, date: Date, locale: ILocale): number | string {
 			str += ":" + toFixed(date.getSeconds());
 			return str;
 		}
+		case "%Q":
+			return Math.floor(date.getMonth() / 3) + 1;
 		default:
 			return mask;
 	}
 }
 
 const formatFlags = /%[a-zA-Z]/g;
-type DateFormater = (date: Date) => string;
+type DateFormatter = (date: Date) => string;
 
-export function dateToString(format: string, locale: ILocale):DateFormater {
+export function dateToString(format: string, locale: ILocale): DateFormatter {
 	if (typeof format == "function") return format;
 
 	return function (date: Date): string {

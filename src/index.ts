@@ -3,7 +3,7 @@ export { delegateClick, delegateEvent } from "./delegateClick";
 export { clickOutside } from "./clickOutside";
 export { calculatePosition, getAbsParent } from "./positioning";
 export { uid } from "./common";
-
+export { hotkeys } from "./hotkeys";
 export { dateToString, getDuodecade } from "./dates";
 
 export { locale } from "./locale";

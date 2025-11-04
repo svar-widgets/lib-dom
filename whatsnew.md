@@ -1,3 +1,9 @@
+### 0.10.0
+
+- [add] formatting of quarters
+- [add] formatting of weeks using locale
+- [add] hotkeys helper to store and exec key handlers
+
 ### 0.9.2
 
 - [update] toolchain changed to tsup
