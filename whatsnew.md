@@ -1,3 +1,12 @@
+### 0.11.1
+
+- [fix] export TPosition type
+
+### 0.11.0
+
+- [add] more precise positioning options to align elements relative to parent
+- [fix] incorrect positioning close to container edges
+
 ### 0.10.0
 
 - [add] formatting of quarters

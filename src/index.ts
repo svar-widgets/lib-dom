@@ -11,3 +11,4 @@ export { setEnv, env } from "./env";
 export { salesForceEnv } from "./salesforce";
 
 export type { ILocale, Terms } from "./locale";
+export type { TPosition } from "./positioning";
