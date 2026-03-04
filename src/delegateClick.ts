@@ -1,5 +1,5 @@
 import type { ActionReturn } from "./common";
-import { locate, id as parseId } from "./locate";
+import { locate, getID } from "./locate";
 
 export type IHandlersHash = { [key: string]: CallableFunction };
 import { env } from "./env";
@@ -12,7 +12,7 @@ export function delegateEvent(
 	function handleEvent(ev: Event) {
 		const node = locate(ev);
 		if (!node) return;
-		const id = parseId(node.dataset.id);
+		const id = getID(node);
 
 		if (typeof handlers === "function") return handlers(id, ev);
 

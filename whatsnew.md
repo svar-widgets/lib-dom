@@ -1,3 +1,9 @@
+### 0.12.0
+
+- [add] type-aware markup for data ids
+- [add] `setId, `getId` methods
+- [remove] `id` method`
+
 ### 0.11.1
 
 - [fix] export TPosition type

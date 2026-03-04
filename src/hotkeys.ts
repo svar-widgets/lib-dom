@@ -1,4 +1,7 @@
-type Handler = (ev?: KeyboardEvent, keys?: { key: string, evKey: string }) => void;
+type Handler = (
+	ev?: KeyboardEvent,
+	keys?: { key: string; evKey: string }
+) => void;
 
 class ScreenKeys {
 	store: Map<string, Handler>;
@@ -35,7 +38,7 @@ export const hotkeys = {
 	},
 };
 
-var ready = false;
+let ready = false;
 function init_once() {
 	if (ready) return;
 	ready = true;
@@ -65,8 +68,7 @@ function init_once() {
 
 			for (let i = chain.length - 1; i >= 0; i--) {
 				const target = chain[i];
-				const handler =
-					target.store.get(key) || target.store.get(evKey);
+				const handler = target.store.get(key) || target.store.get(evKey);
 				if (handler && target.node.contains(ev.target as Node)) {
 					handler(ev, { key, evKey });
 				}

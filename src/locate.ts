@@ -20,6 +20,7 @@ export function locateAttr(el: Element | Event, attr = "data-id"): string {
 
 	return null;
 }
+
 export function locateID(
 	el: Element | Event,
 	attr = "data-id"
@@ -27,10 +28,17 @@ export function locateID(
 	const node = locate(el, attr);
 
 	if (node) {
-		return id(node.getAttribute(attr));
+		return getID(node, attr);
 	}
 
 	return null;
+}
+
+export function getID(el: Element, attr = "data-id"): string | number {
+	const value = el.getAttribute(attr);
+	if (!value) return null;
+
+	return id(value);
 }
 
 export function locateNode(el: Element, node: Element): boolean {
@@ -45,11 +53,14 @@ export function locateNode(el: Element, node: Element): boolean {
 	return null;
 }
 
-export function id(value: string | number): string | number {
-	if (typeof value === "string") {
-		const t = (value as undefined as number) * 1;
-		if (!isNaN(t)) return t;
-	}
+export function setID(id: string | number): string | number {
+	return typeof id === "string" ? ":" + id : id;
+}
+
+function id(value: string): string | number {
+	if (value.startsWith(":")) return value.substring(1);
+	const t = (value as undefined as number) * 1;
+	if (!isNaN(t)) return t;
 
 	return value;
 }

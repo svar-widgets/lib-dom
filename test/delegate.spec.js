@@ -1,5 +1,5 @@
 import { expect, test, beforeEach } from "vitest";
-import { delegateClick, delegateEvent, setEnv, env } from "../src/index";
+import { delegateClick, delegateEvent, setID, setEnv, env } from "../src/index";
 import { mouse, resolveCount } from "./utils";
 
 // @vitest-environment jsdom
@@ -7,16 +7,16 @@ import { mouse, resolveCount } from "./utils";
 beforeEach(() => {
 	document.body.innerHTML = `
         <div id="host">
-            <div data-id="1">
+            <div data-id=${setID(1)}>
                 <div data-action="drag">
                     <div id="in1"></div>
                 </div>
             </div>
-            <div data-id="2">Two</div>
-            <div data-id="3">
+            <div data-id=${setID("2")}>Two</div>
+            <div data-id=${setID(3)}>
                 <div id="in3"></div>
             </div>
-            <div data-id="str3">
+            <div data-id=${setID("str3")}>
                 <div data-action="drag" id="in3str"></div>
             </div>
         </div>
@@ -33,10 +33,10 @@ test("delegateClick handler", () => {
 
 		mouse("click", document.getElementById("in3"));
 		mouse("click", document.getElementById("in3str"));
-		mouse("click", document.querySelector('[data-id="2"]'));
+		mouse("click", document.querySelector(`[data-id="${setID("2")}"]`));
 		mouse("click", document.querySelector("#host"));
 	}).then(() => {
-		expect(results).to.deep.eq([3, "str3", 2]);
+		expect(results).to.deep.eq([3, "str3", "2"]);
 	});
 });
 
@@ -52,9 +52,9 @@ test("delegateClick hash", () => {
 
 		mouse("click", document.getElementById("in3"));
 		mouse("click", document.getElementById("in3str"));
-		mouse("click", document.querySelector('[data-id="2"]'));
+		mouse("click", document.querySelector(`[data-id="${setID("2")}"]`));
 	}).then(() => {
-		expect(results).to.deep.eq([3, "str3", 2]);
+		expect(results).to.deep.eq([3, "str3", "2"]);
 	});
 });
 
@@ -72,9 +72,9 @@ test("delegateEvent handler", () => {
 
 		mouse("click", document.getElementById("in3"));
 		mouse("click", document.getElementById("in3str"));
-		mouse("click", document.querySelector('[data-id="2"]'));
+		mouse("click", document.querySelector(`[data-id="${setID("2")}"]`));
 	}).then(() => {
-		expect(results).to.deep.eq([3, "str3", 2]);
+		expect(results).to.deep.eq([3, "str3", "2"]);
 	});
 });
 
@@ -90,9 +90,9 @@ test("delegateClick, dblclick handler", () => {
 
 		mouse("dblclick", document.getElementById("in3"));
 		mouse("dblclick", document.getElementById("in3str"));
-		mouse("dblclick", document.querySelector('[data-id="2"]'));
+		mouse("dblclick", document.querySelector(`[data-id="${setID("2")}"]`));
 	}).then(() => {
-		expect(results).to.deep.eq([3, "str3", 2]);
+		expect(results).to.deep.eq([3, "str3", "2"]);
 	});
 });
 
@@ -112,10 +112,10 @@ test("delegateEvent, by action", () => {
 
 		mouse("click", document.getElementById("in3"));
 		mouse("click", document.getElementById("in3str"));
-		mouse("click", document.querySelector('[data-id="2"]'));
+		mouse("click", document.querySelector(`[data-id="${setID("2")}"]`));
 		mouse("click", document.getElementById("in3"));
 		mouse("click", document.getElementById("in3str"));
-		mouse("click", document.querySelector('[data-id="2"]'));
+		mouse("click", document.querySelector(`[data-id="${setID("2")}"]`));
 		mouse("click", document.getElementById("in1"));
 	}).then(() => {
 		expect(results).to.deep.eq([
