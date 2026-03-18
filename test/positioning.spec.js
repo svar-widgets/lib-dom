@@ -42,6 +42,9 @@ test("should correctly calculate position related to parent", () => {
 		["top", parent, { x: 399, y: 300, z: 20, width: "auto" }],
 		["left", parent, { x: 299, y: 400, z: 20, width: "auto" }],
 		["right", parent, { x: 551, y: 400, z: 20, width: "auto" }],
+
+		["right-overlap", parent, { x: 550, y: 400, z: 20, width: "auto" }],
+
 		["bottom-right", parent, { x: 551, y: 551, z: 20, width: "auto" }],
 		["bottom-left", parent, { x: 299, y: 551, z: 20, width: "auto" }],
 		["top-right", parent, { x: 551, y: 300, z: 20, width: "auto" }],
@@ -126,6 +129,8 @@ test("should change 'at' position when there is not enough space between parent 
 		["left-end", { x: -200, y: -200 }, { x: 200, y: 0, z: 20, width: "auto" }],
 		["left-end", { x: 250, y: -200 }, { x: 349, y: 0, z: 20, width: "auto" }],
 		["right-end", { x: 250, y: -200 }, { x: 350, y: 0, z: 20, width: "auto" }],
+
+		["right-overlap", { x: 600, y: -200 }, { x: 700, y: 0, z: 20, width: "auto" }],
 
 		["bottom", { x: 200, y: 200 }, { x: 399, y: 300, z: 20, width: "auto" }],
 		[

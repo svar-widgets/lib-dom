@@ -169,13 +169,12 @@ export function calculatePosition(
 	}
 
 	const dxR = x + selfRect.width * (1 - fixLeft / 2) - contRect.right;
-
 	if (dxR > 0) {
 		if (!isRight(at)) {
 			x = contRect.right - border.right - selfRect.width;
 		} else {
 			const dx = pos.left - contRect.x - selfRect.width;
-			if (parent && !isOverlap(at) && !isCorner && dx >= 0) {
+			if (parent && !isCorner && dx >= 0) {
 				// change position to "left"
 				x = pos.left - selfRect.width;
 			} else {
@@ -214,8 +213,8 @@ export function calculatePosition(
 
 	x -= bodyRect.left + border.left;
 	y -= bodyRect.top + border.top;
-	x = Math.max(x, 0) + cont.scrollLeft;
-	y = Math.max(y, 0) + cont.scrollTop;
+	x = (isOverlap(at) ? x: Math.max(x, 0)) + cont.scrollLeft;
+	y = (isOverlap(at) ? y: Math.max(y, 0)) + cont.scrollTop;
 	width = width || "auto";
 
 	return { x, y, z, width };

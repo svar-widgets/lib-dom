@@ -1,3 +1,7 @@
+### 0.12.1
+
+- [fix] right overlap correction for submenu
+
 ### 0.12.0
 
 - [add] type-aware markup for data ids
