@@ -1,6 +1,7 @@
 import { env } from "./env";
 
 type positionResult = {
+	at: TPosition;
 	x: number;
 	y: number;
 	z: number;
@@ -91,6 +92,7 @@ export function calculatePosition(
 	width = "auto";
 	let z = 0;
 	let fixLeft = 0;
+	let resultAt = at as string;
 
 	const body = getAbsParent(self);
 	const cont = isOverlap(at) ? env.getTopNode(self) : body;
@@ -166,6 +168,7 @@ export function calculatePosition(
 		// swap to right if "left" / "left-[align]" does not fit
 		x = pos.right;
 		fixLeft = 0;
+		resultAt = resultAt.replace("left", "right");
 	}
 
 	const dxR = x + selfRect.width * (1 - fixLeft / 2) - contRect.right;
@@ -177,6 +180,7 @@ export function calculatePosition(
 			if (parent && !isCorner && dx >= 0) {
 				// change position to "left"
 				x = pos.left - selfRect.width;
+				resultAt = resultAt.replace("right", "left");
 			} else {
 				x -= dxR + border.right;
 			}
@@ -197,6 +201,7 @@ export function calculatePosition(
 		if (parent && y < contRect.y && needSwap) {
 			// change position to "bottom"
 			y = pos.bottom;
+			resultAt = resultAt.replace("top", "bottom");
 		}
 	}
 
@@ -206,6 +211,7 @@ export function calculatePosition(
 		if (parent && isBottom(at) && needSwap) {
 			// change position to "top"
 			y -= selfRect.height + pos.height + 1;
+			resultAt = resultAt.replace("bottom", "top");
 		} else {
 			y -= dy + border.bottom;
 		}
@@ -217,7 +223,7 @@ export function calculatePosition(
 	y = (isOverlap(at) ? y: Math.max(y, 0)) + cont.scrollTop;
 	width = width || "auto";
 
-	return { x, y, z, width };
+	return { at: resultAt as TPosition, x, y, z, width };
 }
 
 export function getAbsParent(el: HTMLElement): HTMLElement | null {

@@ -23,11 +23,12 @@ test("getAbsParent should return the correct parent", () => {
 	expect(getAbsParent(container)).toBe(document.body);
 });
 
+// prettier-ignore
 test("should correctly calculate position at point", () => {
 	const cases = [
-		["bottom", null, 100, 200, { x: 100, y: 200, z: 0, width: "auto" }],
-		["bottom", null, 950, 200, { x: 950, y: 200, z: 0, width: "auto" }],
-		["bottom", null, 100, 950, { x: 100, y: 950, z: 0, width: "auto" }],
+		["bottom", null, 100, 200, { at: "bottom", x: 100, y: 200, z: 0, width: "auto" }],
+		["bottom", null, 950, 200, { at: "bottom", x: 950, y: 200, z: 0, width: "auto" }],
+		["bottom", null, 100, 950, { at: "bottom", x: 100, y: 950, z: 0, width: "auto" }],
 	];
 
 	cases.forEach(([at, parent, left, top, expected], i) => {
@@ -36,41 +37,42 @@ test("should correctly calculate position at point", () => {
 	});
 });
 
+// prettier-ignore
 test("should correctly calculate position related to parent", () => {
 	const testCases = [
-		["bottom", parent, { x: 399, y: 551, z: 20, width: "auto" }],
-		["top", parent, { x: 399, y: 300, z: 20, width: "auto" }],
-		["left", parent, { x: 299, y: 400, z: 20, width: "auto" }],
-		["right", parent, { x: 551, y: 400, z: 20, width: "auto" }],
+		["bottom", parent, { at: "bottom", x: 399, y: 551, z: 20, width: "auto" }],
+		["top", parent, { at: "top", x: 399, y: 300, z: 20, width: "auto" }],
+		["left", parent, { at: "left", x: 299, y: 400, z: 20, width: "auto" }],
+		["right", parent, { at: "right", x: 551, y: 400, z: 20, width: "auto" }],
 
-		["right-overlap", parent, { x: 550, y: 400, z: 20, width: "auto" }],
+		["right-overlap", parent, { at: "right-overlap", x: 550, y: 400, z: 20, width: "auto" }],
 
-		["bottom-right", parent, { x: 551, y: 551, z: 20, width: "auto" }],
-		["bottom-left", parent, { x: 299, y: 551, z: 20, width: "auto" }],
-		["top-right", parent, { x: 551, y: 300, z: 20, width: "auto" }],
-		["top-left", parent, { x: 299, y: 300, z: 20, width: "auto" }],
+		["bottom-right", parent, { at: "bottom-right", x: 551, y: 551, z: 20, width: "auto" }],
+		["bottom-left", parent, { at: "bottom-left", x: 299, y: 551, z: 20, width: "auto" }],
+		["top-right", parent, { at: "top-right", x: 551, y: 300, z: 20, width: "auto" }],
+		["top-left", parent, { at: "top-left", x: 299, y: 300, z: 20, width: "auto" }],
 
-		["bottom-fit", parent, { x: 399, y: 551, z: 20, width: "150px" }],
-		["top-fit", parent, { x: 399, y: 300, z: 20, width: "150px" }],
+		["bottom-fit", parent, { at: "bottom-fit", x: 399, y: 551, z: 20, width: "150px" }],
+		["top-fit", parent, { at: "top-fit", x: 399, y: 300, z: 20, width: "150px" }],
 
-		["center", container, { x: 650, y: 650, z: 20, width: "auto" }],
-		["center-fit", container, { x: 0, y: 650, z: 20, width: "1400px" }],
+		["center", container, { at: "center", x: 650, y: 650, z: 20, width: "auto" }],
+		["center-fit", container, { at: "center-fit", x: 0, y: 650, z: 20, width: "1400px" }],
 
-		["left-start", parent, { x: 299, y: 400, z: 20, width: "auto" }],
-		["left-center", parent, { x: 299, y: 425, z: 20, width: "auto" }],
-		["left-end", parent, { x: 299, y: 450, z: 20, width: "auto" }],
+		["left-start", parent, { at: "left-start", x: 299, y: 400, z: 20, width: "auto" }],
+		["left-center", parent, { at: "left-center", x: 299, y: 425, z: 20, width: "auto" }],
+		["left-end", parent, { at: "left-end", x: 299, y: 450, z: 20, width: "auto" }],
 
-		["right-start", parent, { x: 551, y: 400, z: 20, width: "auto" }],
-		["right-center", parent, { x: 551, y: 425, z: 20, width: "auto" }],
-		["right-end", parent, { x: 551, y: 450, z: 20, width: "auto" }],
+		["right-start", parent, { at: "right-start", x: 551, y: 400, z: 20, width: "auto" }],
+		["right-center", parent, { at: "right-center", x: 551, y: 425, z: 20, width: "auto" }],
+		["right-end", parent, { at: "right-end", x: 551, y: 450, z: 20, width: "auto" }],
 
-		["top-start", parent, { x: 400, y: 300, z: 20, width: "auto" }],
-		["top-center", parent, { x: 425, y: 300, z: 20, width: "auto" }],
-		["top-end", parent, { x: 450, y: 300, z: 20, width: "auto" }],
+		["top-start", parent, { at: "top-start", x: 400, y: 300, z: 20, width: "auto" }],
+		["top-center", parent, { at: "top-center", x: 425, y: 300, z: 20, width: "auto" }],
+		["top-end", parent, { at: "top-end", x: 450, y: 300, z: 20, width: "auto" }],
 
-		["bottom-start", parent, { x: 400, y: 551, z: 20, width: "auto" }],
-		["bottom-center", parent, { x: 425, y: 551, z: 20, width: "auto" }],
-		["bottom-end", parent, { x: 450, y: 551, z: 20, width: "auto" }],
+		["bottom-start", parent, { at: "bottom-start", x: 400, y: 551, z: 20, width: "auto" }],
+		["bottom-center", parent, { at: "bottom-center", x: 425, y: 551, z: 20, width: "auto" }],
+		["bottom-end", parent, { at: "bottom-end", x: 450, y: 551, z: 20, width: "auto" }],
 	];
 
 	testCases.forEach(([at, parent, expected], i) => {
@@ -93,15 +95,15 @@ test("should correctly calculate position at point if parent is bigger than cont
 
 	const left = 240;
 	const top = 240;
-	const expected = { x: 200, y: 240, z: 20, width: "auto" };
+	const expected = { at: "point", x: 200, y: 240, z: 20, width: "auto" };
 	const result = calculatePosition(portal, parent, "point", left, top);
 	expect(result).toEqual(expected);
 });
 
+// prettier-ignore
 test("should change 'at' position when there is not enough space between parent and container", () => {
 	document.body.style = "margin: 0; padding: 0;";
-	const style =
-		"padding-top: 200px; padding-left: 200px; box-sizing: border-box;";
+	const style = "padding-top: 200px; padding-left: 200px; box-sizing: border-box;";
 	document.body.innerHTML = `
 	    <div id="container" style="position: relative; width: 710px; height: 500px; ${style}">
 	    	<div id="parentCont" style="position: relative; width: 300px; height: 300px;">
@@ -115,61 +117,29 @@ test("should change 'at' position when there is not enough space between parent 
 	const parentCont = document.getElementById("parentCont");
 
 	const testCases = [
-		["top", { x: 200, y: -200 }, { x: 399, y: 50, z: 20, width: "auto" }],
-		["top-right", { x: 200, y: -200 }, { x: 601, y: 0, z: 20, width: "auto" }],
-		["top-left", { x: 200, y: -200 }, { x: 299, y: 0, z: 20, width: "auto" }],
-		["top-right", { x: 250, y: -200 }, { x: 610, y: 50, z: 20, width: "auto" }],
-		["top-left", { x: -200, y: -200 }, { x: 0, y: 50, z: 20, width: "auto" }],
-		["top-end", { x: -200, y: -200 }, { x: 100, y: 50, z: 20, width: "auto" }],
-		[
-			"top-center",
-			{ x: -200, y: -200 },
-			{ x: 50, y: 50, z: 20, width: "auto" },
-		],
-		["left-end", { x: -200, y: -200 }, { x: 200, y: 0, z: 20, width: "auto" }],
-		["left-end", { x: 250, y: -200 }, { x: 349, y: 0, z: 20, width: "auto" }],
-		["right-end", { x: 250, y: -200 }, { x: 350, y: 0, z: 20, width: "auto" }],
+		["top", { x: 200, y: -200 }, { at: "bottom", x: 399, y: 50, z: 20, width: "auto" }],
+		["top-right", { x: 200, y: -200 }, { at: "top-right", x: 601, y: 0, z: 20, width: "auto" }],
+		["top-left", { x: 200, y: -200 }, { at: "top-left", x: 299, y: 0, z: 20, width: "auto" }],
+		["top-right", { x: 250, y: -200 }, { at: "bottom-right", x: 610, y: 50, z: 20, width: "auto" }],
+		["top-left", { x: -200, y: -200 }, { at: "bottom-left", x: 0, y: 50, z: 20, width: "auto" }],
+		["top-end", { x: -200, y: -200 }, { at: "bottom-end", x: 100, y: 50, z: 20, width: "auto" }],
+		["top-center", { x: -200, y: -200 }, { at: "bottom-center", x: 50, y: 50, z: 20, width: "auto" }],
+		["left-end", { x: -200, y: -200 }, { at: "right-end", x: 200, y: 0, z: 20, width: "auto" }],
+		["left-end", { x: 250, y: -200 }, { at: "left-end", x: 349, y: 0, z: 20, width: "auto" }],
+		["right-end", { x: 250, y: -200 }, { at: "left-end", x: 350, y: 0, z: 20, width: "auto" }],
 
-		["right-overlap", { x: 600, y: -200 }, { x: 700, y: 0, z: 20, width: "auto" }],
+		["right-overlap", { x: 600, y: -200 }, { at: "left-overlap", x: 700, y: 0, z: 20, width: "auto" }],
 
-		["bottom", { x: 200, y: 200 }, { x: 399, y: 300, z: 20, width: "auto" }],
-		[
-			"bottom-start",
-			{ x: 200, y: 200 },
-			{ x: 400, y: 300, z: 20, width: "auto" },
-		],
-		[
-			"right-start",
-			{ x: 250, y: 250 },
-			{ x: 350, y: 400, z: 20, width: "auto" },
-		],
-		["bottom", { x: -200, y: 200 }, { x: 0, y: 300, z: 20, width: "auto" }],
-		[
-			"bottom-left",
-			{ x: -200, y: 200 },
-			{ x: 0, y: 300, z: 20, width: "auto" },
-		],
-		[
-			"left-start",
-			{ x: -200, y: 250 },
-			{ x: 200, y: 400, z: 20, width: "auto" },
-		],
-		["left-bottom", { x: -99, y: 250 }, { x: 0, y: 400, z: 20, width: "auto" }],
-		[
-			"left-bottom",
-			{ x: -150, y: 250 },
-			{ x: 0, y: 350, z: 20, width: "auto" },
-		],
-		[
-			"right-bottom",
-			{ x: 150, y: 250 },
-			{ x: 551, y: 400, z: 20, width: "auto" },
-		],
-		[
-			"right-bottom",
-			{ x: 250, y: 250 },
-			{ x: 610, y: 350, z: 20, width: "auto" },
-		],
+		["bottom", { x: 200, y: 200 }, { at: "top", x: 399, y: 300, z: 20, width: "auto" }],
+		["bottom-start", { x: 200, y: 200 }, { at: "top-start", x: 400, y: 300, z: 20, width: "auto" }],
+		["right-start", { x: 250, y: 250 }, { at: "left-start", x: 350, y: 400, z: 20, width: "auto" }],
+		["bottom", { x: -200, y: 200 }, { at: "top", x: 0, y: 300, z: 20, width: "auto" }],
+		["bottom-left", { x: -200, y: 200 }, { at: "top-left", x: 0, y: 300, z: 20, width: "auto" }],
+		["left-start", { x: -200, y: 250 }, { at: "right-start", x: 200, y: 400, z: 20, width: "auto" }],
+		["left-bottom", { x: -99, y: 250 }, { at: "left-bottom", x: 0, y: 400, z: 20, width: "auto" }],
+		["left-bottom", { x: -150, y: 250 }, { at: "left-top", x: 0, y: 350, z: 20, width: "auto" }],
+		["right-bottom", { x: 150, y: 250 }, { at: "right-bottom", x: 551, y: 400, z: 20, width: "auto" }],
+		["right-bottom", { x: 250, y: 250 }, { at: "right-top", x: 610, y: 350, z: 20, width: "auto" }],
 	];
 
 	testCases.forEach(([at, offset, expected], i) => {
@@ -180,6 +150,7 @@ test("should change 'at' position when there is not enough space between parent 
 	});
 });
 
+// prettier-ignore
 test("should correctly apply 'at' position when container styles contain borders", () => {
 	document.body.style = "margin: 0; padding: 0;";
 	const style = "box-sizing: border-box; border: 10px solid #eee;";
@@ -196,16 +167,8 @@ test("should correctly apply 'at' position when container styles contain borders
 	const parentCont = document.getElementById("parentCont");
 
 	const testCases = [
-		[
-			"bottom-right",
-			{ x: 200, y: 200 },
-			{ x: 380, y: 251, z: 20, width: "auto" },
-		],
-		[
-			"bottom-right",
-			{ x: 150, y: 340 },
-			{ x: 351, y: 380, z: 20, width: "auto" },
-		],
+		["bottom-right", { x: 200, y: 200 }, { at: "bottom-right", x: 380, y: 251, z: 20, width: "auto" }],
+		["bottom-right", { x: 150, y: 340 }, { at: "bottom-right", x: 351, y: 380, z: 20, width: "auto" }],
 	];
 
 	testCases.forEach(([at, offset, expected], i) => {

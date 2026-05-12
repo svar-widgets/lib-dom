@@ -27,24 +27,18 @@ export function getDuodecade(year: number): { start: number; end: number } {
 	};
 }
 
-// returns the number of the week by given date, by default with ISO week start as Monday
-function getWeekNumber(ndate: Date, weekStart: number = 1): number {
-	let nday = ndate.getDay();
-	if (nday === 0) {
-		nday = 7; // normalizing to ISO format
-	}
+// returns ISO week number (week starts on Monday)
+function getWeekNumber(ndate: Date): number {
+	const nday = (ndate.getDay() + 6) % 7;
 
-	nday = (nday - weekStart + 7) % 7; // rotate week to make weekStart day 0
+	const pivot = new Date(ndate.valueOf());
+	pivot.setDate(ndate.getDate() + (3 - nday));
+	pivot.setHours(0, 0, 0, 0);
 
-	const first_thursday = new Date(ndate.valueOf());
-	first_thursday.setDate(ndate.getDate() + (3 - nday));
-	const year_number = first_thursday.getFullYear(); // year of the first Thursday
-	const ordinal_date = Math.floor(
-		(first_thursday.getTime() - new Date(year_number, 0, 1).getTime()) /
-			86400000
-	); //ordinal date of the first Thursday - 1 (so not really ordinal date)
+	const jan1 = new Date(pivot.getFullYear(), 0, 1);
+	const ordinal = Math.round((pivot.getTime() - jan1.getTime()) / 86400000);
 
-	return 1 + Math.floor(ordinal_date / 7);
+	return 1 + Math.floor(ordinal / 7);
 }
 
 const emptyAmPm = ["", ""];
@@ -90,8 +84,16 @@ function date2str(mask: string, date: Date, locale: ILocale): number | string {
 			return toFixedMs(date.getMilliseconds());
 		case "%W":
 			return toFixed(getWeekNumber(date));
-		case "%w":
-			return toFixed(getWeekNumber(date, locale.weekStart ?? 1));
+		case "%w": {
+			const ws = locale.weekStart ?? 1;
+			if (ws === 1) return toFixed(getWeekNumber(date));
+			// find the Monday of the current locale-week, use its ISO week number
+			const dayInWeek = (date.getDay() - ws + 7) % 7;
+			const monInWeek = (1 - ws + 7) % 7;
+			const monday = new Date(date.valueOf());
+			monday.setDate(date.getDate() + (monInWeek - dayInWeek));
+			return toFixed(getWeekNumber(monday));
+		}
 		case "%c": {
 			let str = date.getFullYear() + "";
 			str += "-" + toFixed(date.getMonth() + 1);

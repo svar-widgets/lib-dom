@@ -1,3 +1,8 @@
+### 0.12.2
+
+- [fix] incorrect locale-based week numbering
+- [fix] calculatePosition returns new position if swapped
+
 ### 0.12.1
 
 - [fix] right overlap correction for submenu
