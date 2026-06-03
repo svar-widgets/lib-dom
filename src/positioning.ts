@@ -219,8 +219,8 @@ export function calculatePosition(
 
 	x -= bodyRect.left + border.left;
 	y -= bodyRect.top + border.top;
-	x = (isOverlap(at) ? x: Math.max(x, 0)) + cont.scrollLeft;
-	y = (isOverlap(at) ? y: Math.max(y, 0)) + cont.scrollTop;
+	x = (isOverlap(at) ? x : Math.max(x, 0)) + cont.scrollLeft;
+	y = (isOverlap(at) ? y : Math.max(y, 0)) + cont.scrollTop;
 	width = width || "auto";
 
 	return { at: resultAt as TPosition, x, y, z, width };
@@ -242,4 +242,15 @@ export function getAbsParent(el: HTMLElement): HTMLElement | null {
 		el = el.parentNode as HTMLElement;
 	}
 	return null;
+}
+
+export function getPopupParents(node: HTMLElement): HTMLElement[] {
+	const popupNodes = [];
+	let el = node;
+	const top = env.getTopNode(node);
+	while (el && el !== top && !el.getAttribute("data-wx-portal-root")) {
+		if (getComputedStyle(el)["position"] === "absolute") popupNodes.push(el);
+		el = el.parentNode as HTMLElement;
+	}
+	return popupNodes;
 }

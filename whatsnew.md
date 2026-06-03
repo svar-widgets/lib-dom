@@ -1,3 +1,12 @@
+### 0.13.1
+
+- [fix] `clickOutside`: close outer listener on click outside both
+
+### 0.13.0
+
+- [add] `clickOutside` accepts a `parent` accessor to keep popup chains intact
+- [add] `getPopupParents` helper
+
 ### 0.12.2
 
 - [fix] incorrect locale-based week numbering
