@@ -1,7 +1,7 @@
 {
 	"name": "@svar-ui/lib-dom",
 	"productTag": "dom",
-	"version": "0.13.1",
+	"version": "0.14.0",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",

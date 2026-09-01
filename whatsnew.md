@@ -1,3 +1,9 @@
+### 0.14.0
+
+- [add] `onmove` and `onhover` directives with configurable hover and hide delays
+- [add] `locateArea` helper to detect the area and the part of the targeted element
+- [fix] positioning: container scrollbar size is excluded from the available space
+
 ### 0.13.1
 
 - [fix] `clickOutside`: close outer listener on click outside both

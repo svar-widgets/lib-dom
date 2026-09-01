@@ -104,7 +104,7 @@ export function calculatePosition(
 	const contRect = cont.getBoundingClientRect();
 
 	const contStyle = window.getComputedStyle(cont);
-	const border: { [key: string]: number } = {
+	const border = {
 		left: 0,
 		top: 0,
 		bottom: 0,
@@ -112,8 +112,16 @@ export function calculatePosition(
 	};
 	for (const key in border) {
 		const style = `border-${key}-width`;
-		border[key] = parseFloat(contStyle.getPropertyValue(style));
+		border[key as keyof typeof border] = parseFloat(
+			contStyle.getPropertyValue(style)
+		);
 	}
+
+	// exclude non-overlay scrollbars
+	const borderH = border.right + border.left;
+	const borderV = border.top + border.bottom;
+	const contRight = contRect.left + borderH + cont.clientWidth;
+	const contBottom = contRect.top + borderV + cont.clientHeight;
 
 	// correct z-index
 	if (parent) {
@@ -130,10 +138,10 @@ export function calculatePosition(
 				if (isFit(at)) {
 					x = 0;
 				} else {
-					x = contRect.width / 2;
+					x = border.left + cont.clientWidth / 2;
 					fixLeft = 1;
 				}
-				y = (contRect.height - selfRect.height) / 2;
+				y = border.top + (cont.clientHeight - selfRect.height) / 2;
 			} else {
 				const fix = isOverlap(at) ? 0 : 1;
 				x = isRight(at) ? pos.right + fix : pos.left - fix;
@@ -171,10 +179,10 @@ export function calculatePosition(
 		resultAt = resultAt.replace("left", "right");
 	}
 
-	const dxR = x + selfRect.width * (1 - fixLeft / 2) - contRect.right;
+	const dxR = x + selfRect.width * (1 - fixLeft / 2) - contRight;
 	if (dxR > 0) {
 		if (!isRight(at)) {
-			x = contRect.right - border.right - selfRect.width;
+			x = contRight - border.right - selfRect.width;
 		} else {
 			const dx = pos.left - contRect.x - selfRect.width;
 			if (parent && !isCorner && dx >= 0) {
@@ -205,7 +213,7 @@ export function calculatePosition(
 		}
 	}
 
-	const dy = y + selfRect.height - contRect.bottom;
+	const dy = y + selfRect.height - contBottom;
 
 	if (dy > 0) {
 		if (parent && isBottom(at) && needSwap) {

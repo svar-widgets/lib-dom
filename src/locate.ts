@@ -34,6 +34,45 @@ export function locateID(
 	return null;
 }
 
+export function locateArea(
+	el: Element | Event,
+	areas: string[],
+	parts: string[] = [],
+	attr: string = "data-id"
+): [HTMLElement | null, string, string] {
+	let node = el as HTMLElement;
+	if (!node.tagName && (el as Event).target)
+		node = (el as Event).target as HTMLElement;
+
+	let area = "";
+	let part = "";
+	let itemNode = null;
+	outer: while (node) {
+		if (itemNode === null) {
+			if (node.getAttribute && node.getAttribute(attr)) {
+				itemNode = node;
+			} else {
+				for (const test of parts) {
+					if (node.classList.contains(test)) {
+						part = test;
+					}
+				}
+			}
+		}
+
+		for (const test of areas) {
+			if (node.classList.contains(test)) {
+				area = test;
+				break outer;
+			}
+		}
+
+		node = node.parentElement as HTMLElement;
+	}
+
+	return [itemNode, area, part];
+}
+
 export function getID(el: Element, attr = "data-id"): string | number {
 	const value = el.getAttribute(attr);
 	if (!value) return null;

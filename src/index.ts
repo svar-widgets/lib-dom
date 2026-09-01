@@ -3,11 +3,17 @@ export {
 	locateNode,
 	locate,
 	locateID,
+	locateArea,
 	getID,
 	setID,
 } from "./locate";
+
 export { delegateClick, delegateEvent } from "./delegateClick";
 export { clickOutside } from "./clickOutside";
+
+export type { OnMoveConfig } from "./directives";
+export { onmove, onhover } from "./directives";
+
 export {
 	calculatePosition,
 	getAbsParent,
